@@ -1,5 +1,6 @@
 //RSA.js JavaScript Function Library
 //Copyright (©) 2018 Tucker Willenborg
+//Version 0.62
 //License is located at ecc521.github.io/crypto/license.txt
 
 
