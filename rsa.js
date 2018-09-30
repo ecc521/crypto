@@ -2,6 +2,7 @@
 //Beta release
 
 //Copyright (©) 2018 Tucker Willenborg
+
 //Permission is hereby granted, free of charge, to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of this software, subject to the following conditions:
 
 //1. The above copyright and permission notices, as well as the below disclaimer shall be included in all copies or substantial portions of this software.
