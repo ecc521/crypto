@@ -6,5 +6,20 @@
 
 ## About the Librarys
 
-#### Tucker.js
-*Tucker.js is being shut down. Do not start using it.*
+#### rsa.js
+rsa.js is a function library for anything related to RSA. Examples include:
+- Modular Exponentation
+- Cryptographically Secure Random Number Generation
+- Miller-Rabin Test
+- Fermat Test
+- Trial Factoring
+- Modular Inverse (Not added Yet)
+- Safe Prime Tester (Not added Yet)
+- Strong Prime Tester (Not added Yet)
+- RSA Prime Generator (Not added Yet)
+
+
+
+
+#### tucker.js
+*tucker.js is being shut down. Do not start using it.*
