@@ -6,6 +6,9 @@
 
 ## About the Librarys
 
+### lib.js
+lib.js is all the librarys here in one big bundle.
+
 #### rsa.js
 rsa.js is a function library for anything related to RSA. Examples include:
 - Modular Exponentation
