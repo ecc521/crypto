@@ -21,8 +21,11 @@ rsa.js is a function library for anything related to RSA. Examples include:
 - Strong Prime Tester (Not added Yet)
 - RSA Prime Generator (Not added Yet)
 
+All rsa.js functions return BigInt's if applicable
 
 
 
 #### tucker.js
 *tucker.js is being shut down. Do not start using it.*
+If you are currently using tucker.js, please note that it is not receiving some **HUGE** performance improvements going into rsa.js
+(Tucker.random() is receiving a performance improvement of 30-160 times for ranges under 2^32. Larger numbers not tested yet.)
