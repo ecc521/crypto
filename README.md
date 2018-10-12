@@ -27,5 +27,4 @@ All rsa.js functions return BigInt's if applicable
 
 #### tucker.js
 *tucker.js is being shut down. Do not start using it.*
-If you are currently using tucker.js, please note that it is not receiving some **HUGE** performance improvements going into rsa.js
-(Tucker.random() is receiving a performance improvement of 30-160 times for ranges under 2^32. Larger numbers not tested yet.)
+**Warning: Tucker.Random may return values greater than the maximum. THIS IS A BUG. The rsa.js random number generator does not have this issue, and is MUCH faster (4-160 times quicker depending on input)**
