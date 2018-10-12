@@ -1,13 +1,8 @@
 # JavaScript Function Librarys
 
-**Undergoing major changes soon. The plan:**
-1. Redisign library to make it easy to use only the parts you want
-2. Add a few more features to RSA.js so that RSA is easy to implement - eg. randprime, modinv
+## Currently Undergoing major changes
 
 ## About the Librarys
-
-### lib.js
-lib.js is all the librarys here in one big bundle.
 
 #### rsa.js
 rsa.js is a function library for anything related to RSA. Examples include:
