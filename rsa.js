@@ -44,10 +44,10 @@ appendto.modpow = function(num, expo, mod) {
 };
    
    
-if (!window.lib) {window.lib = {}}
-else if (typeof window.lib !== "object") {
-    window.lib = {}
-    console.warn("Overwrote non-object value of window.lib")
+if (!self.lib) {self.lib = {}}
+else if (typeof self.lib !== "object") {
+    self.lib = {}
+    console.warn("Overwrote non-object value of self.lib")
 }
 loader(lib)    
 }());
