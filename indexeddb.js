@@ -1,7 +1,4 @@
 (function() {
-//Deal with prefixes
-window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.OIndexedDB || window.msIndexedDB
-window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.OIDBTransaction || window.msIDBTransaction
 
 //We need to defind loader so that appendto.new can be set.
 let loader = function(appendto){
