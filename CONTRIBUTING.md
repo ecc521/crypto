@@ -4,7 +4,7 @@ Ease of Use:
 - All function names should be lowercase
 - All functions should run in a Web Worker
 - All function should run in the browser.
-- Complete operation should be maintained if the library object is set to another variable.
+- Calling lib.duplicate() should duplicate the library
 
 Maintainability:
 - A non-minified version of all code should be easily available.
