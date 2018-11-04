@@ -1,4 +1,5 @@
 //Not finished
+//Currently only has modpow
 
 (function() {
     
