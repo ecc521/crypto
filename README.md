@@ -3,7 +3,8 @@
 ## About the Librarys
 
 ### random.js
-- High performance random number generation
+- High performance cryptographically secure random number generation
+- Uses crypto.getRandomValues()
 - Always returns a BigInt
 
 
