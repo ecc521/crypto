@@ -6,6 +6,14 @@
 - High performance cryptographically secure random number generation
 - Uses crypto.getRandomValues()
 - Always returns a BigInt
+- Does not throw if min > max
+
+Call using lib.random(min, max) 
+
+
+### indexeddb.js
+- localStorage in indexedDB
+
 
 
 
