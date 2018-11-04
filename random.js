@@ -3,6 +3,10 @@
 //This function adds the methods to the passed object
 let loader = function(appendto){
       
+if (!appendto || typeof appendto !== "object") {
+    throw new Error("You must pass an object as parameter number 1. The methods will be added to that object.")
+}
+    
 //In order to greatly improve random() performance, store values in a list 
 //These must be private - we can't have the same values used twice
 var randlist = crypto.getRandomValues(new Uint32Array(256));
