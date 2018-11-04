@@ -114,10 +114,10 @@ appendto.random = function(min,max) {
     
 };
    
-if (!window.lib) {window.lib = {}}
-else if (typeof window.lib !== "object") {
-    window.lib = {}
-    console.warn("Overwrite non-object value of window.lib")
+if (!self.lib) {self.lib = {}}
+else if (typeof self.lib !== "object") {
+    self.lib = {}
+    console.warn("Overwrite non-object value of self.lib")
 }
 loader(lib)    
 }());
