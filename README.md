@@ -24,7 +24,6 @@ Call using lib.random(min, max)
 #### rsa.js
 rsa.js is a function library for anything related to RSA. Examples include:
 - Modular Exponentation
-- Cryptographically Secure Random Number Generation
 - Miller-Rabin Test
 - Fermat Test
 - Trial Factoring
@@ -39,4 +38,4 @@ All rsa.js functions return BigInt's if applicable
 
 #### tucker.js
 *tucker.js is being shut down. Do not start using it.*
-**Warning: Tucker.Random may return values greater than the maximum. THIS IS A BUG. random.js does not have this issue, and is MUCH faster (4-160 times quicker depending on input)**
+**Warning: Tucker.Random may return values greater than the maximum. THIS IS A BUG. random.js does not have this issue, and is MUCH faster (4-160 times faster depending on input)**
