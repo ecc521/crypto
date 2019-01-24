@@ -1,0 +1,105 @@
+<!--<script src="https://ecc521.github.io/librarys/random.js"></script>
+<script src="https://ecc521.github.io/librarys/indexeddb.js"></script>
+<script src="https://ecc521.github.io/librarys/rsa.js"></script>-->
+
+
+
+
+<script>
+    function download(name, data, mimetype) {
+
+        var stuff = data;
+        var blob = new Blob([stuff],{
+            type: mimetype
+        });
+
+        if(window.navigator.msSaveOrOpenBlob) {
+                window.navigator.msSaveBlob(blob, name);
+            }
+            else{
+                var elem = window.document.createElement('a');
+                elem.href = window.URL.createObjectURL(blob);
+                elem.download = name;        
+                document.body.appendChild(elem);
+                elem.click();        
+                document.body.removeChild(elem);
+            }
+
+        }
+    
+    async function prep(filenames){
+        
+        let baseurl = "https://ecc521.github.io/librarys/"
+        
+        let responses = []
+        
+        for (let i=0;i<filenames.length;i++) {
+            let url = baseurl + filenames[i].trim()
+            console.log(url)
+            responses.push(fetch(url))
+        }
+    
+        let chars = 0
+        
+        for (let i=0;i<responses.length;i++) {
+            responses[i] = await responses[i]
+            responses[i] = await responses[i].text()
+            chars += responses[i].length
+            eval(responses[i])
+        }
+    
+        console.log(responses)
+        let resp = reducechars(chars)
+        
+        download("code.js", resp, "application/javascript")
+        
+    }
+    
+    let filenames = "rsa.js, indexeddb.js, random.js"
+    filenames = filenames.split(",")
+    prep(filenames)
+    
+    
+    function reducechars(oldlength) {
+    let arr = []
+    
+    for (let i=0;i<lib._duplist.length;i++) {
+        let val = lib._duplist[i]
+                
+        if (i) {
+            let b = {}
+            val(b)
+            //Removes .duplicate boilerplate
+            let remove = String(b.duplicate)
+            val = String(val)
+            let identifier = "oldfunclocationdonotusethistextanywhere"
+            val = val.replace(remove, identifier)
+            
+            //appendto may have had it's name changed.
+            let name = val.match(/(?<=function\s*\(\s*)\S+?(?=\s*\))/)
+            
+            let replacer = new RegExp(name + ".duplicate" + "\\s*" + "=" + "\\s*" + identifier)
+            console.log(replacer)
+            val = val.replace(replacer, "")
+
+
+        }
+        else {val = String(val)}
+                
+        arr.push(val)
+    }
+    
+    console.log(arr)
+    console.log(arr[1])
+    
+    let str = ""
+    for (let i=0;i<arr.length;i++) {
+        if (!i){str += "if(window.lib){console.warn('Overwriting window.lib')}window.lib={}\nlet "}
+        str += "loader=" + arr[i] + ";loader(window.lib);"
+    }
+    console.log(str)
+    console.log("Original Length: " + oldlength + " characters\nNew Length: " + str.length)
+    eval(str)
+    return str;
+    }
+</script>

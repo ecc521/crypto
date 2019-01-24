@@ -1,0 +1,120 @@
+<script>
+"use strict";
+
+//This code will need transpiling
+    
+//code is the function (or stringified function) to be run. 
+//options can contain the following properties:
+    //parameters
+    //
+    
+    
+function runbackground(code, options) {
+
+    let text;
+    let obj = {}
+    
+    //Supports functions and stringified functions
+    
+    let parameters = options.parameters || []
+    text = `
+self.onmessage = function() {
+    let result = (${code}(${parameters.join(",")}))
+    postMessage({
+        type:"message", 
+        finished:true, 
+        content:result
+    })
+}`
+    console.log(text)
+    
+
+    
+    
+    
+    let blob = new Blob([text])
+    let url = URL.createObjectURL(blob)
+    
+    
+    
+    
+    //obj.onmessage and obj.onerror should be used instead of worker.onmessage
+    
+    obj.worker = new Worker(url)
+    
+    //finalvalue handles both onmessage and giving the end value
+    let finalvalue = new Promise(function(resolve,reject){
+                        
+        obj.worker.onmessage = function(message) {
+                
+            message = message.data
+            
+            if (message.finished) {
+                resolve(message.content)
+            }
+            else if (obj.onmessage) {
+             obj.onmessage(message)
+            }    
+                
+        }
+          
+        //Force people to use obj.onmessage instead of obj.worker.onmessage
+        //We don't want them overwriting our listeners
+
+        Object.defineProperty(obj.worker, "onmessage", {
+            configurable:false,
+            writable: false,
+            value: obj.worker.onmessage //If I inlined the function here, it wasnt working
+        })
+        
+    })
+    
+    obj.init = function() {
+        obj.worker.postMessage("You can now begin")
+        delete obj.init;
+    }
+    
+    
+    obj.result = finalvalue
+    
+   
+    return obj;
+}
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+function myfunc(a,b) {
+    setTimeout(function(){
+        postMessage("Hi" + Date.now())
+    }, 1000)
+    
+    return a*b
+}
+    
+    
+    
+    
+    
+    
+(async function() {
+    window.c = runbackground(myfunc, {
+        parameters: [3,6]   
+    })
+
+
+    c.worker.onerror = function(error) {console.log(error)}
+    c.onmessage = function(message) {console.log(message)}
+
+    c.init()
+    
+    console.log(await c.result)
+}())
+</script>
