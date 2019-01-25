@@ -1,0 +1,202 @@
+<script>
+
+    
+let preloads = [
+    "https://rivers.run/index.html",
+    "https://rivers.run/index.js",
+    "https://rivers.run/index.css",
+    "https://rivers.run/graph.js",
+    "https://rivers.run/riverarray.js",
+    
+    "https://rivers.run/resources/32pxDrop.png",
+
+    
+    "https://rivers.run/about",
+    "https://rivers.run/FAQ",
+]    
+    
+    
+    
+    
+    
+//Defaults:
+    //serve:true
+    //timeout:2000 (milliseconds)
+    //cache-max-age: 86400 (seconds)
+    //update-cache: true
+    
+    //use-cache:true
+    //max-age:
+    
+let base = {  
+    serve:true, //Should this request be completed
+    load: {
+        timeout:2000, //How long should be wait for network before returning cache if available(<=0 means don't check network)
+        expires:60, //How new must that cache be? (Network timeout unlimited if cache too old)
+        update:true, //This value is ignored unless network-timeout is <=0
+        //If true cache is updated in background
+    },
+    fallback: {
+        cache:true, //Should be ever return cache?
+        expires:86400 //How new must that cache be?
+    }  
+}
+
+
+//Matcher can be a string or a regexp
+//The code will check that the URL either begins with the string, or matches the RegExp
+let overrides = [
+    {
+        matcher: "https://rivers.run",
+        load: {
+            timeout:1200
+        }
+        
+    },
+    {
+        matcher: "https://rivers.run/resources",
+        load: {
+            expires:86400
+        }
+    
+    },
+    {
+        matcher: "https://ecc521.github.io",
+        load: {
+            expires:86400
+        }
+    
+    },
+    {
+        matcher: /https/,
+        fallback: {
+            expires: 86400*4
+        }
+    },
+    {
+        matcher: "https://rivers.run/manifest.json",
+        load: {
+            timeout:999999999
+        },
+        fallback: {
+            cache:false
+        }
+    }
+]
+
+
+
+
+
+function matches(url) {
+    let arr = [];
+    
+    for (let item in overrides) {
+        
+        item = overrides[item]
+        
+        let matcher = item.matcher
+        let testurl = url
+        
+        
+        if (matcher instanceof RegExp) {
+            
+            while (item.matcher.test(testurl)) {
+                if (testurl.length === 0){break;}
+                testurl = testurl.slice(0,-1)
+            }
+            if (testurl.length !== url.length) {
+                arr.push({
+                    removed:url.length-(testurl.length+1), //Add one, because the .slice() call above is unconditional
+                    item: item
+                })
+            }
+            
+        }
+        else if (typeof matcher === "string") {
+            
+            while (testurl.indexOf(item.matcher) === 0) {
+                if (testurl.length === 0){break;}
+                testurl = testurl.slice(0,-1)
+            }
+            if (testurl.length !== url.length) {
+                arr.push({
+                    removed:url.length-(testurl.length+1), //Add one, because the .slice() call above is unconditional
+                    item: item
+                })
+            }
+            
+        }
+        else {
+            console.warn("Invalid/Missing URL for the following item:")
+            console.warn(item)
+        }
+        
+        
+    }
+
+    return arr;
+}
+
+
+    
+function params(matches) {
+    
+    let original = Object.assign({}, base);
+    
+    function compare(a,b) {
+        if (a.removed > b.removed) {return -1}
+        if (b.removed > a.removed) {return 1}
+        return 0;
+    }
+    
+    matches.sort(compare)
+    
+    for (let i=0;i<matches.length;i++) {
+        
+        let item = matches[i].item
+        let load = item.load
+        let fallback = item.fallback
+        
+        if (load) {
+            if (load.timeout !== undefined) {
+                original.load.timeout = load.timeout
+            }
+            
+            if (load.expires !== undefined) {
+                original.load.expires = load.expires
+            }
+            
+            if (load.update !== undefined) {
+                original.load.update = load.update
+            }        
+        
+        }
+        
+        if (fallback) {
+            if (fallback.cache !== undefined) {
+                original.fallback.cache = fallback.cache
+            }    
+            if (fallback.expires !== undefined) {
+                original.fallback.expires = fallback.expires
+            }
+        }
+    }
+    
+    
+    
+    return original
+}    
+    
+    
+    
+    
+let a = matches("https://rivers.run/resources")
+console.log(a)
+let b = params(a)
+console.log(b)
+    
+    
+
+
+</script>
