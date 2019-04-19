@@ -1,25 +1,32 @@
 <script>
 "use strict";
-
-//This code will need transpiling
     
 //code is the function (or stringified function) to be run. 
 //options can contain the following properties:
-    //parameters
-    //
+    //parameters - Used to pass parameters to the function that is being run.
+    //await - true if the function that is being called is asynchronus, and should be awaited.
+
+//Has lots of browser support issues
     
-    
-function runbackground(code, options) {
+function runBackground(code, options) {
 
     let text;
     let obj = {}
     
-    //Supports functions and stringified functions
     
-    let parameters = options.parameters || []
+    let parameters = options.parameters || [];
+    
+    //Allow the user to pass just a single parameter
+    if (parameters.length === undefined || typeof parameters === "string") {
+        parameters = [parameters]
+    }
+    
+    console.log(parameters)
+    
     text = `
-self.onmessage = function() {
-    let result = (${code}(${parameters.join(",")}))
+self.onmessage = function(parameters) {
+    parameters = parameters.data
+    let result = ${options.await ? "await ":""}(${code})(...parameters);
     postMessage({
         type:"message", 
         finished:true, 
@@ -28,28 +35,26 @@ self.onmessage = function() {
 }`
     console.log(text)
     
-
-    
-    
+ 
     
     let blob = new Blob([text])
     let url = URL.createObjectURL(blob)
     
     
-    
-    
-    //obj.onmessage and obj.onerror should be used instead of worker.onmessage
+    //obj.onmessage and obj.onerror should be used instead of obj.worker.onmessage
     
     obj.worker = new Worker(url)
     
-    //finalvalue handles both onmessage and giving the end value
-    let finalvalue = new Promise(function(resolve,reject){
-                        
+    //The worker doesn't actually activate until obj.init() is called.
+    obj.result = new Promise(function(resolve,reject){
+                       
+        //Handle messages from worker
         obj.worker.onmessage = function(message) {
                 
             message = message.data
             
             if (message.finished) {
+                //Return the final value
                 resolve(message.content)
             }
             else if (obj.onmessage) {
@@ -70,13 +75,11 @@ self.onmessage = function() {
     })
     
     obj.init = function() {
-        obj.worker.postMessage("You can now begin")
+        obj.worker.postMessage(parameters)
         delete obj.init;
+        return obj; //Allow chaining
     }
-    
-    
-    obj.result = finalvalue
-    
+        
    
     return obj;
 }
