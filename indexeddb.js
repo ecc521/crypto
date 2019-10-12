@@ -1,5 +1,5 @@
 //indexeddb.js JavaScript Function Library
-//https://github.com/ecc521/librarys/blob/master/indexeddb.js
+//https://github.com/ecc521/libraries/blob/master/indexeddb.js
 
 //Copyright (©) 2019 Tucker Willenborg, MIT License
 
