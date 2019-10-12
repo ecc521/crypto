@@ -1,6 +1,6 @@
-# JavaScript Function Librarys
+# JavaScript Function Libraries
 
-## About the Librarys
+## About the Libraries
 
 ### random.js
 - High performance cryptographically secure random number generation
