@@ -6,6 +6,9 @@
 
 
 <script>
+    //Delete duplicate stuff for appendTo. This allows for smaller file sizes when combining multiple libraries.
+    //We should have the actual stuff in a seperate directory, and run a build that creates the bulkier files.
+    //That kind of a build process would make it much simpler to remove everything we don't need.
     function download(name, data, mimetype) {
 
         var stuff = data;
